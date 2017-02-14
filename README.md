@@ -89,3 +89,7 @@ public void onNext(ResultDataEntity<VersionInfoEntity> versionInfoEntityResultDa
 ```简单点的就是使用 
 压缩（好压）软件自带的工具，一键可以提取出MD5和SIZE
 ```
+######不符合我的需求怎么办
+```
+可以查看https://github.com/czy1121/update  自己定制
+```
