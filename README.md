@@ -1,6 +1,6 @@
 ###此库基于https://github.com/czy1121/update  该项目进行修改，保留大部分代码。  
 为什么有修改，引用项目当中对服务器返回格式进行了限制，无法满足自定义需求。为了能符合自己的设计规范，进行了微调整。 
-####后台API设计，返回数据样例
+####后台API设计，返回数据样例，仅供参考，可以按照需求自己定义
 ```
 {
     "Code": 200,
@@ -33,3 +33,43 @@
 `MD5`:校验文件的MD5 ，保证下载完整性  
 `Size`:文件大小 ( long )  
 #####如何使用
+step1
+```
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+step2
+```
+dependencies {
+	        compile 'com.github.wyh497823256:UpdateLib:1.0.0'
+	}
+```
+
+```
+@Override
+public void onNext(ResultDataEntity<VersionInfoEntity> versionInfoEntityResultDataEntity) {
+       VersionInfoEntity versionInfoEntity = versionInfoEntityResultDataEntity.getData();
+           if (versionInfoEntity != null && versionInfoEntity.getUpdateVersion() > AppUtils.getAppVersionCode(Utils.context)) {
+                            UpdateInfo updateInfo = new UpdateInfo();
+                            updateInfo.size = versionInfoEntity.getSize();
+                            updateInfo.hasUpdate = true;
+                            updateInfo.isIgnorable = false;
+                            if (versionInfoEntity.getUpdateType() == 3) {
+                                updateInfo.isForce = true;
+                            }
+                            updateInfo.versionCode = versionInfoEntity.getUpdateVersion();
+                            updateInfo.versionName = versionInfoEntity.getClientVersion();
+                            updateInfo.md5 = versionInfoEntity.getMD5();
+                            updateInfo.updateContent = versionInfoEntity.getUpdateLog();
+                            updateInfo.url = versionInfoEntity.getDownloadUrl();
+                            mView.getUpdateManager()
+                                    .setWifiOnly(false)
+                                    .setUpdateInfo(updateInfo)
+                                    .check();
+                        }
+                  }
+```
