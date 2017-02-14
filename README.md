@@ -85,3 +85,7 @@ public void onNext(ResultDataEntity<VersionInfoEntity> versionInfoEntityResultDa
                   }
 ```
 ###Q&A
+######如何获取文件MD5和大小
+```简单点的就是使用 
+压缩（好压）软件自带的工具，一键可以提取出MD5和SIZE
+```
