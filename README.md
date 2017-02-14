@@ -50,26 +50,38 @@ dependencies {
 ```
 
 ```
+//RxJava 获取服务器数据
 @Override
 public void onNext(ResultDataEntity<VersionInfoEntity> versionInfoEntityResultDataEntity) {
-       VersionInfoEntity versionInfoEntity = versionInfoEntityResultDataEntity.getData();
-           if (versionInfoEntity != null && versionInfoEntity.getUpdateVersion() > AppUtils.getAppVersionCode(Utils.context)) {
-                            UpdateInfo updateInfo = new UpdateInfo();
-                            updateInfo.size = versionInfoEntity.getSize();
-                            updateInfo.hasUpdate = true;
-                            updateInfo.isIgnorable = false;
-                            if (versionInfoEntity.getUpdateType() == 3) {
+	//获取ReturnData中的数据
+       VersionInfoEntity versionInfoEntity = versionInfoEntityResultDataEntity.getData();
+       	   //服务器版本是否大于本地版本，是的话进行更新
+           if (versionInfoEntity != null && versionInfoEntity.getUpdateVersion() > AppUtils.getAppVersionCode(Utils.context)) {
+	   		 //更新数据		
+                            UpdateInfo updateInfo = new UpdateInfo();
+			    //填充apk大小
+                            updateInfo.size = versionInfoEntity.getSize();
+			    //是否更新，当然可以从服务器配置，在这默认为true
+                            updateInfo.hasUpdate = true;
+			    //是否忽略更新，true的话启用一个选择框
+                            updateInfo.isIgnorable = false;
+			    //是否强制更新
+                            if (versionInfoEntity.getUpdateType() == 2) {
                                 updateInfo.isForce = true;
                             }
-                            updateInfo.versionCode = versionInfoEntity.getUpdateVersion();
+			    // 版本号
+                            updateInfo.versionCode = versionInfoEntity.getUpdateVersion();
                             updateInfo.versionName = versionInfoEntity.getClientVersion();
-                            updateInfo.md5 = versionInfoEntity.getMD5();
+			   // md5校验,
+                            updateInfo.md5 = versionInfoEntity.getMD5();
                             updateInfo.updateContent = versionInfoEntity.getUpdateLog();
                             updateInfo.url = versionInfoEntity.getDownloadUrl();
-                            mView.getUpdateManager()
-                                    .setWifiOnly(false)
-                                    .setUpdateInfo(updateInfo)
-                                    .check();
+			  //mView.getUpdateManager() = UpdateManager.create(getContext());
+                            mView.getUpdateManager()
+                                    .setWifiOnly(false)// 是否只在wifi环境下更新
+                                    .setUpdateInfo(updateInfo) //将以上的数据填充进去
+                                    .check();
                         }
                   }
 ```
+###Q&A
