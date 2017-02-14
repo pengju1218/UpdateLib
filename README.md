@@ -84,6 +84,8 @@ public void onNext(ResultDataEntity<VersionInfoEntity> versionInfoEntityResultDa
                         }
                   }
 ```
+######Demo
+![image](https://github.com/wyh497823256/UpdateLib/blob/master/20170214143717.png)
 ###Q&A
 ######如何获取文件MD5和大小
 ```简单点的就是使用 
